@@ -1,0 +1,14 @@
+La cartella HTTP dentro APP contiene tutto ciò che è il nostro programma.
+Contiene Kernel.php che è la configurazione della parte di controller.
+
+La cartella CONTROLLERS contiene controller.php che estende BaseController. 
+    Ogni controller della nostra app dovrà estendere Controller.
+    La cartella AUTH contiene file per l'autenticazione, la login, il cambio passo, ecc...
+    Login è vuota perchè usa AUthenticateUsers che è un treat. 
+    Per usare un treat dobbiamo andare a prendere il pezzo che ci interessa dentro la classe estesa e riportarlo nel treat
+    e così possiamo modificarla
+    NON MODIFICARE MAI I FILE DENTRO A FRAMEWORK.
+
+Se io non ho un controller posso crearlo tramite artisan con l'istruzione più il nome
+    php artisan make:controller WelcomeController --resource
+    In questo modo il controller contiene già le rotte per il database. le CRUD

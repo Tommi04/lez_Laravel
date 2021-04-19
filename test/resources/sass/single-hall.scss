@@ -1,0 +1,129 @@
+@import 'mixins';
+
+
+#hall-data-container{
+    position: relative;
+    width: 100%;
+    height: auto;
+    padding-top: 50px;
+    /* background-color: lightseagreen; */
+    @include mq-min-width(1200px){
+        padding-top: 100px;
+        /* l'ho tolta per trasformare tutto in display:grid */
+        /* min-height: calc(100vh - 100px); in min-height con vh o % le cose in float non riescono a calcolare il 100% */
+        }
+}
+
+.half-col{
+    width: 100%;
+    position: relative;
+    @include mq-min-width(1200px){
+        position: relative;
+        width: 50%;
+        height: 100%;
+        /*float: left; /* con classe clearfix nell'elemento*/
+        display: table-cell;
+    }
+}
+
+.hall-img{
+    text-align: center;
+    /* left: unset; per resettare il left:0 in absolute */
+    /* background-color: lightsalmon; */
+    img{
+        max-width: 100%;
+    }
+}
+.hall-data{
+    padding: 0 30px;
+    /* right: unset; per resettare il right:0 in absolute */
+    /* background-color: lightslategray; */
+    @include mq-min-width(1200px){
+        text-align: left;
+        vertical-align: top;
+    }
+}
+
+.hall-data-content{
+    position: relative;
+    width: 100%;
+    @include mq-min-width(1200px){
+        width: 50%;
+    }
+}
+
+.hall-data-row{
+    position: relative;
+    margin-bottom: 35px;
+    width: 100%;
+    h1,
+    h3,
+    p{
+        display: relative;
+        @include ltr-weight-xbold;
+        text-transform: uppercase;
+    }
+    h1{
+        display: inline-block; /* in questo modo il border-bottom prende solo la width della scritta dell'elemento*/
+        font-size: 5rem;
+        color: #fff;
+        border-bottom: 2px solid #ba34f3;
+        padding-bottom: 3px;
+        /* text-decoration: underline; non si può giocare coi colori perchè eredita il color. 
+        E non può essere spaziata ma dipende dalla line-height e dal before del font */
+    }
+    h3{
+        font-size: 2rem;
+        color: #ba34f3;
+    }
+    p{
+        font-size: 1,75rem;
+        color: #fff;
+        &:last-child{
+            margin-bottom:0;
+        }
+    }
+    &:last-child{
+        margin-bottom: 0;
+    }
+}
+
+.hall-carousel-container{
+    @include default-size;
+    padding: 20px 50px 0 50px;
+    margin-top: 75px;
+}
+
+.hall-carousel-navi{
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 50px;
+    text-align: center;
+}
+
+#hall-carousel-navi-prev{
+    left: 0;
+}
+
+#hall-carousel-navi-next{
+    right: 0;
+}
+
+.hall-carousel-nav-btn{
+    color: #fff;
+    font-size: 3.5rem;
+    cursor: pointer;
+}
+
+.item{
+    height: 130px;
+}
+
+@media all and (min-width:1200px){
+    #hall-data-container-inner{
+        position: relative;
+        display:table;
+        width: 100%;
+    }
+}

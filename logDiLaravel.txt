@@ -1,0 +1,42 @@
+possiamo loggare su file e su altri canali, non su browser.
+i file di log saranno in storage > log
+
+Il flie di configurazione dei log possiamo trovarlo in config > logging.php
+In questo file:
+
+Lo 'stack' ci permette di definire una pila (stack) di log. 
+    In 'channel' possiamo definire quali degli array sotto sono quelli da usare quando facciamo log, ad esempio 'daily'
+    'ignore-exceptions' ci permette di ignorare le exceptions
+
+gli array sotto sono i componenti della pila dello stack
+    in ognuno di questi c'è la proprietà 'path' che definisce dopo si creano i log, storage > log
+
+possiamo anche creare un log personalizzato con un nuovo array con un nome che gli assegnamo noi
+
+
+Per fare logging in un controller, ad esempio AdminMoviesController, importiamo la Facades di Log e facciamo
+    
+        //emergency è il peggior segnale possibile
+        //in ordine d'importanza decrescente
+        Log::emergency('Log:emergency');
+        Log::alert('Log:alert');
+        Log::critical('Log:critical');
+        Log::error('Log:error');
+        Log::warning('Log:warning');
+        Log::notice('Log:notice');
+        Log::info('Log:info');
+
+        //per usare un log che abbiamo creato personalizzato in logging.php
+        Log::channel('custom')->error('Messaggio di errore custom');
+
+
+SE VOGLIO LOGGARE MA SENZA INSTALLARE PLUGIN, DB ECC... POSSO USARE UN HELPER
+Creo la cartella Helpers dentro App. Dentro Helpers creo LogHelper.php
+creo una tabella logs nel DB
+creo il modello Log.php
+Dentro il controller richiamo LogHelper
+
+L'HELPER POSSO METTERLO IN AUTOLOAD
+vado in config > app.php e sotto  /* THIRD PARTY FACEDES*/ ci importiamo CUSTOM
+    /* CUSTOM */
+    'LHelper' => App\Helpers\LogHelper::class

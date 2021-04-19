@@ -1,0 +1,52 @@
+Gestione dei permessi degli utenti. Se non basta l'ACL di laravel usare parti di terzi
+- Laravel permission
+- Bouncer
+- Entrust
+
+Le basi dell'ACL di laravel sono
+ - Gates: stabilisce chi fa cosa
+ - Policies: operazioni legate ad un modello, come fa cosa
+
+
+-------------------------------
+GATES:
+I gates vanno registrati dentro app > providers > AuthServiceProvider in boot()
+Poi i gates vanno applicati da qualche parte. In questo caso nel AdminMooviesController in index()
+per dirgli se passa o non passa
+        if (Gate::allows('can-admin')){
+            //qualcosa
+        }else{
+            abort(401); //unauthorized
+        }
+
+devo scrivere la relazione tra User e Role
+in User:
+    public function userRole(){
+        return $this->belongsTo('App\Models\Role', 'role', 'id' );
+    }
+
+in Role:
+    public function users(){
+        return $this->hasMany('App\Models\User', 'role', 'id');
+    }
+
+
+Per fare tutto ciò in maniera generica senza andarlo a mettere in ogni modello dobbiamo agire dalle routes
+inserendoci
+    ->middleware('can:can-admin')
+
+---------------------------
+POLICIES
+Le policies vanno registrati dentro app > providers > AuthServiceProvider in $policies
+
+Con le policies possiamo controllare chi fa cosa sui modelli
+Per creare una policy, che definisce come i miei utenti interagiscono con il modello utente
+    php artisan make:policy NomePolicy --model=Modello
+
+e avremo la cartella policies in app
+Dovremo inserire la policy in app > Providers > AuthServiceProvider
+        'App\Models\User' => 'App\policies\UserPolicy
+        OPPURE
+        User::class => UserPolicy::class
+
+--------------------------

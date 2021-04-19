@@ -1,0 +1,4 @@
+SELECT * FROM `shows` WHERE
+    hall_id = 10 AND 
+    ((start >= '2020-03-02 17:30:00' AND start <= '2020-03-02 19:00:00') OR
+     (end >= '2020-03-02 17:30:00' AND end <= '2020-03-02 19:00:00'))

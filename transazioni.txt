@@ -1,0 +1,24 @@
+le TRANSAZIONI sono un modo che ha il database per rendere una sequenza di query, un'unica operazione a compartimento stagno
+quindi o vanno a buon fine tutte o non va a buon fine nessuna.
+In questo modo ci garantiamo l'integrità del DB. 
+Si dice che committa la transazione se sono tutte andate a buon fine 
+Altrimenti fa un rollback e ripende lo stato precedente del DB e lo ripristina.
+
+Se sto facendo una query di cancellazione massiva di tutti (impossibile) gli utenti non verificati
+e proprio in quel momento un utente si verifica, abbiamo una cosiddetta concorrenza.
+
+Con le TRANSAZIONI la basedati viene bloccata se lo impostiamo su sql.
+
+START TRASACTION;
+    DELETE FROM users WHERE id = 1;
+    DELETE FROM user_details WHERE user-id = 1;
+COMMIT
+
+oppure
+ 
+BEGIN WORK
+    DELETE FROM users WHERE id = 1;
+    DELETE FROM user_details WHERE user-id = 1;
+COMMIT
+
+non si sa perchè ma START TRANSACTION e BEGIN WORK funzionano uguali

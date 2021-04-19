@@ -1,0 +1,6 @@
+Per creare un paginatore (1, 2, 3, 4, 5, ...)
+
+php artisan vendor:publish --tag-laravel-pagination
+
+e crea la cartella vendor>pagination in views
+Crea un file di paginazione per bootstrap, per laravel, per semantic-ui, per tailwind

@@ -1,0 +1,65 @@
+
+php artisan vendor:publish  -> elenco dei package installabili
+php artisan cache:clear     -> pulisce cache
+composer dump-autoload      -> pulisce i file di laravel
+
+------------------------------------------
+Route::resource('movies', 'MoviesController'); 
+in web.php con il comando 
+"php artisan route:list" crea in automatico tutte le rotte
+possiamo anche assegnargli noi il nome con il metodo
+// Route::get('/', 'WelcomeController@welcome')->name('tommaso');
+
+--------------------------------
+
+php artisan make:auth
+nella cartella RESOURCES.VIEWS ho altre cose oltre welcome.blade.php
+si è creata la cartella AUTH con i file
+    register.blade.php, per la registrazione dell'utente
+    verify.blade.php, per la verifica dell'utente
+    login.blade.php, per il login dell'utente
+    cartella PASSWORDS con i file
+        email.blade.php, per resettare la password tramite la mail
+        reset.blade.php, per resettare la password quando è arrivata la mail
+si è creata la cartella LAYOUTS con il file
+    app.blade.php
+questo comando prepara tutto il giro per la registrazione degli utenti nel sistema
+
+--------------------------------
+php artisan migrate esegue degli script per creare i database nel database che noi abbiamo
+impostato in .env. 
+Questi script li prende da database > migrations, dove laravel con il comando php artisan make:auth
+ha creato dei file php legati al database.
+Ha creato 3 tabelle,
+    migrations dove tiene lo storico delle migrazioni eseguite
+    users che contiene gli utenti
+    password_resets per resettare la password
+----------------------------------------------
+
+php artisan make:migration create_movies_table
+per creare la migration della tabella dei film
+
+----------------------------------------------
+
+php artisan migrate esegue la creazione delle tabelle 
+php artisan migrate:rollback mi torna indietro di uno step
+php artisan migrate:reset resetta tutte le operazioni di migration fatte
+php artisan migrate:fresh droppa tutte le tabelle forzandole dopo di che lancia le migrazioni
+php artisa migrate:refresh fa un rollback e poi rilancia le migrazioni
+
+----------------------------------------------
+php artisan meke:model nomeModello crea un modello in App. 
+Consiglio di creare una cartella Models in cui spostsare i modelli. 
+Poi va modificato il namespace del modello aggiungendo \cartella.
+E devo anche modificare in config>auth.php il providers aggiungendo nella chiave 'model' \cartella dopo App
+
+----------------------------------------------
+php artisan make:request CreateMovieRequest
+Per creare una request
+
+---------------------------------------------
+composer dumpautoload (composer dump-autoload) rigenera le dipendenze di laravel e le ot
+
+---------------------------------------------
+installando il laravel pagbar ci mostrerà il debug dell'applicazione, con tutti gli errori più comprensibili
+e con le SELECT eseguite al DB

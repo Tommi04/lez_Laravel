@@ -1,0 +1,13 @@
+#main{
+    height: 100vh;
+}
+
+label,
+legend{
+    color:#fff;
+    font-size: 2rem;
+}
+
+.invalid{
+    color:#a94442;
+}

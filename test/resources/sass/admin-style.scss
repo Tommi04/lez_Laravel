@@ -1,0 +1,35 @@
+@import 'theme';
+@import 'utils';
+@import 'mixins';
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+*{
+    box-sizing: border-box;
+}
+
+/*
+fatto tramite normalizecss
+npm install normalizecss
+link in main a node_modules/normalizecss/normalize.css
+html,
+body{
+    padding: 0;
+    margin: 0;
+}
+*/
+
+body{
+    @include default-size;
+    font-size: $base-font-size;
+    font-family: $default-font-family;
+}
+
+main{
+    @include p-m-0;
+}
+
+.movies-list-action{
+    font-size: 2.5 rem;
+    color: #ccc;
+    line-height: 1;
+}

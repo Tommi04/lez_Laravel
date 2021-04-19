@@ -1,0 +1,48 @@
+--------------------
+OBSERVERS
+I model observers sono delle classi che possiamo creare da zero 
+o con il comando
+    php artisan make:observer Nomeobserver --model=NomeModelloDaAssociare
+e sotto Notifications comparirà la cartella Observers
+
+per settare un modello (User) ossarvato (observed) impostare in AppServiceProvider.php
+        User::observe(Nomeobserver::class);
+
+--------------------
+EVENTI
+Gli eventi vanno di pari passo con i listener, possoono essere generati e legati non solo alle 
+operazioni sui modelli ma per tutto, qualsiasi cosa può diventare un evento.
+
+Con gli eventi abbiamo un controllo molto più granulare e non sono necessariamente legati ad azioni
+intraprese sui modelli. Ma ora li vediamo legati ai modelli.
+
+I modelli generano eventi durante tutto il loro lifecycle.
+Quando viene preso dal db, prima, durante, dopo di essere, creato, aggiornato, salvato, cancellato, restorato
+Inserire in fondo ai modelli 
+    protected $dispatchesEvents = [
+        'saved' => UserSaved::class,
+        'deleted' => UserDeleted::class,
+    ]
+Dove la chiave dell'array è il lifecycle hook e il valore è la classe dell'evento da generare con artisan
+    php artisan make:event NomeEvento
+app > events
+
+Per funzionare un evento deve avere un corrispondente listener
+    php artisan make:listener UserUpdatedListener
+Nuova cartella Listeners
+
+Va agganciato l'evento al listener, dentro Providers abbiamo EventServiceProvider.php, qua dentro abbiamo già
+    protected $listen = [
+        //nell'evento Registerd fai. Chiave che è una classe e il valore è a sua volta un array
+        Registered::class => [
+            SendEmailVerificationNotification::class,
+        ],
+        //ma c'è un'altra sintassi retrocompatibile
+        'App\Events\UserUpdated' => [
+            'App\Listeners\UserUpdatedListener'
+        ]
+    ];
+
+Con
+    php artisan event:generate
+genera in automatico quello che trova dentro EventServiceProvider

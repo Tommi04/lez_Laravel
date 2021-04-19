@@ -1,0 +1,131 @@
+
+-- // le stored procedures
+-- //le stored procedures sono un modo per scrivere delle funzioni dentro sql, 
+-- //come fossero delle funzioni ed eseguire codice.
+-- // possiamo anche creare un'utenza per le stored procedures
+DELIMITER $$
+CREATE PROCEDURE get_users()
+BEGIN
+	SELECT * FROM users 
+		ORDER BY id;
+END $$
+DELIMITER ;
+
+-- //si richiama con 
+CALL get_users();
+
+
+DELIMITER $$
+CREATE PROCEDURE get_active_users()
+BEGIN
+	SELECT ALL FROM users WHERE email_verified_at IS NOT NULL
+		ORDER BY email_verified_at DESC;
+END $$
+DELIMITER ;
+
+
+-- //stored procedures con parametri. Possiamo passare parametri in input e settarne altri per output
+-- //IN definisce la qualità del parametro, IN è un parametro di INPUT
+DELIMITER $$
+CREATE PROCEDURE get_users_by_activation_state(IN state INT)
+BEGIN
+	IF state = 1
+	THEN
+		SELECT * FROM users 
+		WHERE email_verified_at IS NOT NULL
+		ORDER BY email_verified_at DESC;
+	ELSEIF state = 0
+	THEN 
+		SELECT * FROM users
+		WHERE email_verified_at IS NULL
+		ORDER BY created_at DESC;
+	END IF;
+END $$
+DELIMITER ;
+-- //per chiamare una stored procedure con parametri
+SET #p0 = '1';
+CALL get_users_by_activation_state(#p0);
+
+
+-- //funzioni con un return, parametro di OUTPUT OUT
+DELIMITER $$
+CREATE PROCEDURE count_tickets_by_show_id(IN sid INT, OUT tickets INT)
+BEGIN
+	SELECT COUNT(id) INTO tickets FROM tickets WHERE id = sid;
+END $$
+DELIMITER ;
+-- //chiamarle
+CALL count_tickets_by_show_id(5, @tickets);
+SELECT @tickets;
+
+
+-- //Cancelliamo gli utenti non verificati
+UPDATE users SET deleted_at = NOW() WHERE email_verified_at IS NULL;
+
+
+DELIMITER $$
+CREATE PROCEDURE delete_inactive_users()
+BEGIN
+	UPDATE users SET deleted_at = NOW() WHERE email_verified_at IS NULL;
+END $$
+DELIMITER ;
+
+
+DELIMITER $$
+CREATE PROCEDURE get_user_rating(IN uid INT, OUT user_rating VARCHAR(20))
+BEGIN
+	DECLARE bought INT;
+	SELECT COUNT(id) INTO bought FROM tickets t WHERE t.user_id = uid;
+	IF bought > 20 
+	THEN
+		SET user_rating = 'PLATINUM';
+	ELSEIF (bought < 20 AND bought >= 10) 
+	THEN
+	 	SET user_rating = 'GOLD';
+	ELSEIF bought <= 10
+	THEN
+		SET user_rating = 'SILVER';
+	END IF;
+END $$
+DELIMITER ;
+
+
+
+-- //cicli
+-- //voglio una stringa totale di tutti gli email degli utenti concatenate da ";"
+-- //un parametro che viene preso e tornato si chiama di IN OUT e si dichiara INOUT
+DROP PROCEDURE IF EXISTS users_email_list;
+DELIMITER $$
+CREATE PROCEDURE users_email_list(INOUT emails_list TEXT)
+BEGIN 
+	DECLARE finished INT DEFAULT 0;
+	DECLARE user_email VARCHAR(255) DEFAULT '';
+	
+	-- //dichiara la variabile cur di tipo CURSOR per questa query
+	DECLARE cur CURSOR FOR SELECT email FROM users;
+
+	-- //blocchiamo il ciclo quando non trova più item dentro al cursore e setta la variabile finished = 1
+	DECLARE CONTINUE HANDLER FOR NOT FOUND SET finished = 1;
+
+	-- //cicliamo sul cursore, apro il cursore
+	OPEN cur;
+		-- //apro il ciclo
+		get_users_email: LOOP
+			
+			-- //gira il cursore in user_email
+			FETCH cur INTO user_email;
+			-- //se trovi finished = 1 esci da get_users_email
+			IF finished = 1
+			THEN
+				LEAVE get_users_email;
+			END IF;
+
+			SET emails_list = CONCAT(emails_list, ';', user_email);
+
+		-- //chiudo il ciclo dicendo a quale ciclo sto facendo riferimento
+		END LOOP get_users_email;
+	CLOSE cur;
+
+
+END $$
+DELIMITER ;

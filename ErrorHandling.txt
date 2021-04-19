@@ -1,0 +1,19 @@
+troviamo il file che gestisce gli Error in app > Exceptions > Handler.php
+
+Per modificare gli errori dobbiamo agire nella funzione render()
+
+I metodi magici finiscono in sessione (session()) e vengono ripresi dalle direttive blade nelle viste
+usando le parole minuscole e gli _
+    ->withNotFound divente not_found
+
+Creando in view la cartella errors con dentro il file costituito da numeroerrore.blade.php
+laravel ci permette di sostituire la vista standard dei suoi errori
+    404.blade.php in views > errors
+
+{{-- in $exception->getCode() abbiamo il codice di errore --}}
+{{-- in $exception->getMessage() abbiamo l'errore che abbiamo iniettato dall'exception del message in Handler.php --}}
+{{  dd($exception->getCode()) }}
+{{  dd($exception->getMessage()) }}
+
+php artisan vendor publish ci serve per trovare i package da installare, 
+installiamo gli errors e dentro view > errors ci troveremo tutte le viste per i principali errori

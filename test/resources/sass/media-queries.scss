@@ -1,0 +1,61 @@
+@media only screen and (max-width: 600px){
+    body{
+        background-color: lightblue;
+    }
+}
+
+
+/* dove devo agire
+   all      tutti
+   screen   in schermo
+   print    in stampa
+   speech   per device accessibili
+*/
+
+/* voleno si possono legare altre condizioni e così via
+    and
+    only
+    not
+*/
+
+/* un po' problematico com'è qua sotto perchè va in ordine e non sempre copre le casistiche correttamente 
+    DESKTOP FIRST perchè testa max-width
+*/
+
+bodY{
+    background-color: yellow;
+}
+@media all and (max-width: 1440px){
+    body{   
+        background-color: red;
+    }
+}
+@media all and (max-width: 992px){
+    body{   
+        background-color: blue;
+    }
+}
+
+/* MOBILE FIRST perchè testa min-width */
+
+bodY{
+    background-color: yellow;
+}
+@media all and (min-width: 1440px){
+    body{   
+        background-color: red;
+    }
+}
+@media all and (min-width: 992px){
+    body{   
+        background-color: blue;
+    }
+}
+
+/* in stampa con print cambia stile */
+@media print{
+    .title{
+        color: black;
+        font-size: 1rem;
+    }
+}

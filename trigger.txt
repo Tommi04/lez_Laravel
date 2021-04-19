@@ -1,0 +1,223 @@
+Un trigger è una procedura, uno statement, di sql che viene collegata ad un evento.
+
+I trigger hanno 2 momenti di vita, quindi per 1 evento ci sono 2 trigger.
+
+CREATE TRIGGER nometrigger...
+
+-- //in mysql e mariaDB i TRIGGER si dichiarano con DELIMITED $$ e finiscono con END $$. Ogni DB ha il suo
+DELIMITER $$
+CREATE TRIGGER `users_before_insert` 
+-- //momento del trigger
+BEFORE INSERT
+ON `users` FOR EACH ROW 
+BEGIN
+	-- //dichiariamo una variabile, dopo il BEGIN ma prima della logica IF
+	DECLARE admins_count INT;
+	SELECT (`id`) INTO admins_count FROM users WHERE role = 'a';
+
+	-- //se il nuovo ruolo che stai inserendo = 'a' e se già esiste
+	-- //in mysql esistono NEW e OLD. 
+	-- //NEW contiene i valori che ci saranno con la query. 
+	-- //OLD contiene quelli che c'erano prima della query
+	IF NEW.role = 'a' AND admins_count > 0
+	THEN
+		-- //lancia l'errore con il SIGNAL
+		-- //il SIGNAL è composto da codice errore e valore messaggio. MYSQL_ERRNO (mysql_errornumber) per riscrivere il codice d'errore
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Nel sistema può essere inserito solamente un amministratore', MYSQL_ERRNO = 15000;
+	END IF;
+END $$
+
+DROP TRIGGER IF EXISTS `users_before_insert`
+
+//creata tabella email_queue
+
+//creo un TRIGGER per mandare una mail ad ogni iscrizione alla newsletter
+DELIMITER $$
+CREATE TRIGGER user_details_after_insert
+	AFTER INSERT
+	ON user_details FOR EACH ROW
+BEGIN
+	DECLARE recipient_email VARCHAR(80);
+	DECLARE recipient_name VARCHAR(50);
+
+	IF NEW.newsletter = true THEN
+		SELECT 'name', 'email' INTO recipient_name, recipient_email FROM users WHERE id = NEW.user_id;
+		INSERT INTO `email_queue` (
+    	        `user_id`,
+    	        `recipient_name`,
+    	        `recipient_email`,
+    	        `subject`,
+    	        `body`,
+    	        `type`
+		) VALUES (
+			NEW.user_id,
+			recipient_name,
+			recipient_email,
+			'Grazie per esserti iscritto alla newsletter id Musa Vision',
+			'qualcosa afdaf nbbj jiejr iei je ',
+			'newsletter_new_user'
+		);
+	END IF;
+END $$
+
+
+-- //mandare una mail dopo l'eliminazione dalla newsletter. BEFORE
+DELIMITER $$
+CREATE TRIGGER  user_details_after_update
+	AFTER UPDATE
+	ON user_details FOR EACH ROW
+BEGIN
+	DECLARE recipient_name VARCHAR(80);
+	DECLARE recipient_email VARCHAR(80);
+
+	IF OLD.newsletter = 0 AND NEW.newsletter = 1
+	THEN
+		SELECT 'name', 'email' INTO recipient_name, recipient_email FROM users WHERE id = OLD.user_id;
+		INSERT INTO `email_queue` (
+    	        `user_id`,
+    	        `recipient_name`,
+    	        `recipient_email`,
+    	        `subject`,
+    	        `body`,
+    	        `type`
+		) VALUES (
+			NEW.user_id,
+			recipient_name,
+			recipient_email,
+			'Grazie per esserti iscritto alla newsletter id Musa Vision',
+			'qualcosa afdaf nbbj jiejr iei je ',
+			'newsletter_new_user'
+		);
+	-- // dentro il TRIGGER ELSE IF va scritto ELSEIF
+	ELSEIF OLD.newsletter = 1 AND NEW.newsletter = 0
+	THEN
+		SELECT 'name', 'email' INTO recipient_name, recipient_email FROM users WHERE id = OLD.user_id;
+		INSERT INTO `email_queue` (
+    	        `user_id`,
+    	        `recipient_name`,
+    	        `recipient_email`,
+    	        `subject`,
+    	        `body`,
+    	        `type`
+		) VALUES (
+			NEW.user_id,
+			recipient_name,
+			recipient_email,
+			'Ci dispiace che ti sei disiscritto alla newsletter id Musa Vision',
+			'qualcosa afdaf nbbj jiejr iei je ',
+			'newsletter_user_deletion'
+		);
+	END IF;
+END $$
+
+
+DELIMITER $$
+CREATE TRIGGER user_role_before_update
+	BEFORE UPDATE
+	ON users FOR EACH ROW
+BEGIN
+	DECLARE admin_email VARCHAR(255);
+	DECLARE admin_name VARCHAR(255) DEFAULT 'ADMIN';
+	IF NEW.role = 'a' AND (SELECT COUNT(id) FROM users WHERE role = 'a') > 0
+	THEN
+		SELECT u.name, u.email INTO admin_name, admin_email FROM users u WHERE role ='a';
+		INSERT INTO `email_queue` (
+    	        `user_id`,
+    	        `recipient_name`,
+    	        `recipient_email`,
+    	        `subject`,
+    	        `body`,
+    	        `type`
+		) VALUES (
+			NEW.id,
+			admin_name,
+			admin_email,
+			'Attenzione! Tentativo sospetto di intrusione',
+			'qualcosa afdaf nbbj jiejr iei je ',
+			'strange_behaviour'
+		);
+
+		-- //Qua lanciamo un segnale all'amministratore
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Nel sistema può essere inserito solamente un utente di tipo admin', MYSQL_ERRNO = 1001;
+
+	END IF;
+END $$
+
+
+-- //Questo TRIGGER modificherà il valore nella tabella, manipola le righe
+DELIMITER $$
+CREATE TRIGGER users_details_before_update
+	BEFORE UPDATE
+	ON user_details FOR EACH ROW
+BEGIN
+	DECLARE age INT;
+	IF NEW.birth_date IS NOT NULL
+	THEN 
+		SET age = TRUNCATE(DATEDIFF( NOW(), NEW.birth_date ) / 365 , 0);
+		IF (age > 50) 
+		THEN
+			SET NEW.profile_tag = 'over';
+		ELSE
+			SET NEW.profile_tag = 'under';
+		END IF;
+	ELSE
+		SET NEW.profile_tag = 'n/a';
+	END IF;
+END $$
+
+
+//con questo invierò una mail per assicurarmi che l'utente vuole cancellarsi
+DELIMITER $$
+CREATE TRIGGER users_before_deleting
+	BEFORE DELETE
+	ON users FOR EACH ROW
+BEGIN
+	INSERT INTO `email_queue` (
+			`user_id`,
+			`recipient_name`,
+			`recipient_email`,
+			`subject`,
+			`body`,
+			`type`
+	) VALUES (
+		OLD.id,
+		OLD.name,
+		OLD.email,
+		'Ci dispiace che ti stai cancellando, ne sei proprio sicuro?',
+		'qualcosa afdaf nbbj jiejr iei je ',
+		'user_deleted'
+	);
+END $$
+
+
+
+-- //notifico all'amministratore che un utente si è cancellato
+DELIMITER $$
+CREATE TRIGGER users_after_deleting
+	AFTER DELETE
+	ON users FOR EACH ROW
+BEGIN
+	DECLARE admin_email VARCHAR(255);
+	DECLARE admin_name VARCHAR(255);
+	DECLARE message TEXT;
+
+	SELECT u.name, u.email INTO admin_name, admin_email FROM users u WHERE role = 'a';
+	SET message = CONCAT("Si è cancellato l'utente ", OLD.name, ' la cui mail è: ', OLD.email);
+
+	INSERT INTO `email_queue` (
+			`user_id`,
+			`recipient_name`,
+			`recipient_email`,
+			`subject`,
+			`body`,
+			`type`
+	) VALUES (
+		OLD.id,
+		admin_name,
+		admin_email,
+		'Nuova cancellazione utente',
+		message,
+		'user_deleted'
+	);
+	
+END $$

@@ -1,0 +1,96 @@
+@import 'mixins';
+
+
+#movies{
+    @include default-size;
+}
+
+#movie-data-container {
+    @include default-size;
+    height: calc( #{$screen-height} - #{$header-lg-size} );
+    #video-container {
+        @include default-size;
+        display: block;
+        height: 100%;
+        overflow: hidden;
+        #video-play {
+            position: absolute;
+            display: block;
+            top: 50px;
+            left: 50px;
+            z-index: 4;
+            cursor: pointer;
+            .video-play-element {
+                @include rel-inlbl;
+            }
+            #play-icon {
+                @include bck-img-def;
+                width: 100px;
+                height: 100px;
+            }
+            #play-label-container {
+                height: 100px;
+                font-size: 2.5rem;
+                text-transform: uppercase;
+                color: map-get($mv-colors, mv-light-blue);
+                @include ltr-weight-xbold;
+                margin-left: 15px;
+                line-height: 1;
+            }
+        }
+        video {
+            @include abs-full;
+            z-index: 1;
+        }
+    }
+    #video-overlay {
+        @include abs-full;
+        @include bck-img-def;
+        z-index: 2;
+    }
+}
+
+#movie-data {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    z-index: 3;
+    @include mq-min-width(1200px){
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+    h3 {
+        font-size: 2rem;
+        color: map-get($mv-colors, mv-white);
+        margin-bottom: 15px;
+        text-transform: uppercase;
+        @include ltr-weight-xbold;
+    }
+    h4 {
+        font-size: 1.4rem;
+        text-transform: uppercase;
+        color: map-get($mv-colors, mv-light-blue);
+        margin-bottom: 10px;
+        @include ltr-weight-xbold;
+    }
+    h5 {
+        font-size: 1.2rem;
+        color: map-get($mv-colors, mv-white);
+        margin-bottom: 15px;
+        text-transform: uppercase;
+        line-height: 1.25;
+        @include ltr-weight-xbold;
+    }
+}
+
+.movie-info-block{
+    position: relative;
+}
+
+@mixin mq-min-width($width){
+    .single-movie-block,
+    .movie-info{
+        margin-top: 0;
+    }
+}

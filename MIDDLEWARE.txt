@@ -1,0 +1,5 @@
+il MIDDLEWARE è un sistema di mezzo, ulteriore pezzo che sta tra la rotta e il controller per l'endpoint.
+Cattura la richiesta, processa la richiesta al suo interno, se la richiesta è valida la manda al controller, 
+    se non è valida al controller non ce la fa arrivare.
+Il secondo compito del Middleware è quello inverso. Analizza la risposta e la inoltra all'utente se è valida.
+E' possibile mettere più middleware uno dopo l'altro e verranno eseguiti a cascata

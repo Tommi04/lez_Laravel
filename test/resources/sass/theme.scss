@@ -1,0 +1,128 @@
+@import 'mixins';
+/*
+    Colors
+*/
+.c-white{
+    color: map-get($mv-colors, mv-white);
+}
+.c-light-blue{
+    color: map-get($mv-colors, mv-light-blue);
+}
+.c-black{
+    color: map-get($mv-colors, mv-black);
+}
+
+/*
+    backgrounds
+*/
+
+.bg-white{
+    background-color: map-get($mv-colors, mv-white);
+}
+.bg-black{
+    background-color:map-get($mv-colors, mv-black);
+}
+.bg-light-blue{
+    background-color: map-get($mv-colors, mv-light-blue);
+}
+.bg-transparent{    /* per bottone ouline, trasparente */
+    background-color: map-get($mv-colors, mv-transparent);
+}
+.bg-dark-blue{
+    background-color: map-get($mv-colors, mv-dark-blue);
+}
+.bg-light-purple{
+    background-color: map-get($mv-colors, mv-light-purple);
+}
+.bg-dark-purple{
+    background-color: map-get($mv-colors, mv-dark-purple);
+}
+.bg-light-green{
+    background-color: map-get($mv-colors, mv-light-green);
+}
+.bg-dark-green{
+    background-color: map-get($mv-colors, mv-dark-green);
+}
+
+.section-title{
+    font-size: 2rem; /* 2 per la font-size */
+    padding-bottom: 3px;
+    text-align: center;
+    border-bottom: 3px solid map-get($mv-colors, mv-light-blue);
+    color:  map-get($mv-colors, mv-white);
+    letter-spacing: 5px;
+    margin: 0 auto 75px auto;
+    display: inline-block;
+}
+
+.section-title-opaque-container{
+    position: relative;
+    display: inline-block;
+    padding: 35px 25px 20px;
+    background-color: map-get($mv-colors, mv-black-50p);
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    &.section-title{
+    margin-bottom: 0;
+    }
+}
+
+.btn-mv{
+    padding: 14px 20px;
+    min-height: 45px;
+    border-radius: 5px;
+    color: map-get($mv-colors, mv-white);
+    text-decoration: none;
+    @include ltr-weight-semibold;
+    border: 0;
+    &:hover{
+        color: map-get($mv-colors, mv-white);
+        text-decoration: none;
+    }
+    &.btn-mv-blue{
+                /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/map-get($mv-colors, mv-light-blue)+0map-get($mv-colors, mv-medium-blue)+100 */
+            background: map-get($mv-colors, mv-light-blue); /* Old browsers */
+            background: -moz-linear-gradient(top,  map-get($mv-colors, mv-light-blue) 0%, map-get($mv-colors, mv-medium-blue) 100%); /* FF3.6-15 */
+            background: -webkit-linear-gradient(top,  map-get($mv-colors, mv-light-blue) 0%,map-get($mv-colors, mv-medium-blue) 100%); /* Chrome10-25,Safari5.1-6 */
+            background: linear-gradient(to bottom,  map-get($mv-colors, mv-light-blue) 0%,map-get($mv-colors, mv-medium-blue) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00aff0', endColorstr='#00597b',GradientType=0 ); /* IE6-9 */
+            &:focus,
+            &:hover,
+            &.focus{
+                /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/map-get($mv-colors, mv-medium-blue)+0,03b0f5+100 */
+                background: map-get($mv-colors, mv-medium-blue); /* Old browsers */
+                background: -moz-linear-gradient(top,  map-get($mv-colors, mv-medium-blue) 0%, map-get($mv-colors, mv-light-blue) 100%); /* FF3.6-15 */
+                background: -webkit-linear-gradient(top,  map-get($mv-colors, mv-medium-blue) 0%,map-get($mv-colors, mv-light-blue) 100%); /* Chrome10-25,Safari5.1-6 */
+                background: linear-gradient(to bottom,  map-get($mv-colors, mv-medium-blue) 0%,map-get($mv-colors, mv-light-blue) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+                filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00597b', endColorstr='#00aff0',GradientType=0 ); /* IE6-9 */
+            }
+        }
+        &.btn-mv-lg{
+            margin: 0;
+            text-align: center;
+            color:  map-get($mv-colors, mv-white);
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+        
+        &.btn-mv-purple{
+            /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#00b7ea+0,0091e0+52,009ec3+100 */
+            background: map-get($mv-colors, mv-purple); /* Old browsers */
+            background: -moz-linear-gradient(top,  map-get($mv-colors, mv-purple) 0%, map-get($mv-colors, mv-dark-purple)  100%); /* FF3.6-15 */
+            background: -webkit-linear-gradient(top,  map-get($mv-colors, mv-purple) 0%,map-get($mv-colors, mv-dark-purple) 100%); /* Chrome10-25,Safari5.1-6 */
+            background: linear-gradient(to bottom,  map-get($mv-colors, mv-purple) 0%,map-get($mv-colors, mv-dark-purple) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ba34f3', endColorstr='map-get($mv-colors, mv-dark-purple)',GradientType=1 ); /* IE6-9 */
+        
+            &:focus,
+            &:hover,
+            &.focus{
+                /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/map-get($mv-colors, mv-medium-blue)+0,03b0f5+100 */
+            background: map-get($mv-colors, mv-dark-purple); /* Old browsers */
+            background: -moz-linear-gradient(top,  map-get($mv-colors, mv-dark-purple) 0%, map-get($mv-colors, mv-purple) 100%); /* FF3.6-15 */
+            background: -webkit-linear-gradient(top,  map-get($mv-colors, mv-dark-purple) 0%,map-get($mv-colors, mv-purple) 100%); /* Chrome10-25,Safari5.1-6 */
+            background: linear-gradient(to bottom,  map-get($mv-colors, mv-dark-purple) 0%,map-get($mv-colors, mv-purple) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='map-get($mv-colors, mv-dark-purple)', endColorstr='#ba34f3',GradientType=0 ); /* IE6-9 */
+            }
+        }
+}
+

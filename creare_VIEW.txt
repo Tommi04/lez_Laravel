@@ -1,0 +1,7 @@
+Per creare le VIEW in laravel non si usa la classe Schema come per le table.
+Si fa una migrazione e si usa la classe DB
+
+DB::statement("querydalanciare");
+
+da MariaDb >10 o MYSQL >5.6 devo crare una VIEW per ogni sub SELECT
+ogni subselect corrisponde ad una vista. La prima che creo un up() sarà l'ultima ad essere droppata in down()

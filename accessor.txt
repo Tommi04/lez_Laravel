@@ -1,0 +1,2 @@
+ACCESSOR
+é una proprietà virtuale che possiamo creare nei modelli di laravel 

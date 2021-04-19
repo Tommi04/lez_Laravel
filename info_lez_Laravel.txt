@@ -1,0 +1,192 @@
+MVC - Modern View Controller è la struttura di Laravel e di molti altri framework, 
+la parte di modellazione, quella di vista e quella di controllo dei dati
+
+- Il Controller è il back-end, interroga il Model per prendere i dati dal database e li rimanda al View che è il front-end
+- Il Model gestisce la chiamata al database
+- Il view gestisce il front-end
+
+
+REST è un'estensione di http (del transfert protocol) che estende il concetto dei metodi GET e POST
+e li trasforma in verbi. Ne aggiunge altri e implementa tutto quello che è stato definito nel
+protocollo http.
+Sono GET, POST, PUT, PATCH, DELETE, ecc...  e nel paradigma rest fanno funzionare tutte le CRUD OPERATION
+(guarda POSTMAN per tutti i verbi)
+
+Invio sulla barra dei link equivale a un GET per prendere una risorsa remota.
+URL è un indirizzo. http://www.google.com
+URI è una risorsa remota. google.com
+
+Possiamo fare richieste a una risorsa remota non solo tramite GET ma anche tramite POST,
+non proprio con la barra dei link ma con un form
+
+Il Router (a cui facciamo la richiesta quando andiamo in qualche URL) si occupa di verificare 
+che la richiesta sia fatta correttamente, con i dati e i verbi giusti
+e che corrisponda effettivamente ad una risorsa
+
+---------------------
+Laravel si installa tramite composer (packager php) che è in packager come npm
+Una cosa particolare di Laravel è Artisan. E' una command line interface (CLI) che è integrata in Laravel
+Un'altra estensione è Tinker che consente di usare Laravel tramite il terminale
+
+---------------------
+Laravel ha un pezzo di Synphony sotto che come motore di front-end usa twig.
+Blade è un mezzo linguaggio con una sua sintassi per agire con twig.
+
+---------------------
+Cartella VENDOR è quella dove composer installa i package, è l'equivalente di node_modules quando installiamo npm
+---------------------
+TESTS è la cartella per usare phpunit, modulo php di testing
+----------------------
+STORAGE è dove vengono salvate delle cose
+----------------------
+PUBLIC è la directory raggiungibile dall'esterno. Index.php all'interno di public è l'indice che viene chiamato all'ingresso del sito.
+Index.php contiene il singleton.
+COn il ritorno del singleton chiama il metodo make della classe app (app->make) e con il ritorno cattura la richiesta 
+che abbiamo fatto per inviarla
+----------------------
+BOOTSTRAP è la cartella che fa partire l'app.
+----------------------
+ROUTES contiene i file che si occupano di gestire le rotte all'interno dell'app. 
+api.php è per quando si usano le funzioni api.
+web.php è per quando si usa laravel in funzione web
+    Route::get('/', function() {return view('welcome');});
+    //torna l'esecuzione del metodo view passandogli come parametro 'welcome'
+    //vai nella cartella views e ritorna il file welcome
+console.php server per i comandi da riga di comando. Laravel ci mette a disposizione un tool per creare nuovi comandi con Artisan
+channels.php è per il broadcasting delle notifiche
+----------------------
+Dentro RESOURCES c'è JS che contiene bootstrap.js che non è bootstrap ma è un file che recopera tutte le dipendenze,
+bootrap, popper, vue e altro
+Poi c'è app.js che recupera bootrap.js (lo copia) e c'è tutta una serie di roba sulla parte vue.js
+Poi c'è una cartella di COMPONENTS dove c'è la roba di vue.js
+C'è la cartella SASS dove dentro c'è app.scss che importa i font Nunito, il file _variables.scss e bootstrap
+    e lo va a prendere da node_modules che noi non abbiamo.
+LARAVEL esce con un package.json in cui abbiamo tutte le dipendenze di cui abbiamo bisogno per lavorare sul front-end 
+    ma non ce le installa, quindi se le vogliamo ce le installiamo.
+Tra i package abbiamo laravel-mix, che fa diverse cose interessanti.
+Cartella LANG contiene le directory per le lingue. Possiamo internazionalizzare le label del nostro sito perchè in queste
+    cartelle con le lingue ci sono oggetti con chiave=>valore che contengono anche variabili
+Cartella VIEWS contiene un file .blade.php   . E' un file php che sta interpretando con il motore di blade che
+    ha una sua sintassi specifica
+    Un file blade è assolutamente un file html con la sintassi blade (@if, @auth, @else)
+----------------------
+WEBPACK è un ulteriore bundler come SCSS che fa anche altre cose. Prende tutto ciò che abbiamo, type, less, sass, es6.
+Possiamo tramutare ES6 in ES5, possiamo mergare i file, prendere un pezzo di un file e un pezzo di un altro.
+WEBPACK.MIX.JS usa LARAVEL-MIX
+----------------------
+CONFIG contiene un sacco di roba.
+app.php che contiene tutte le configurazioni iniziali dell'app come l'url, la lingua, cose di sicurezza, i provider.
+    Quando installiamo un package esterno dobbiamo inserirlo in questo file nell'elenco dei file esterno
+database.php contiene tutte le configurazioni per vari database o per i file senza usare database
+    Dentro Laravel possiamo avere 2 connessioni a 2 database diversi contemporaneamente duplicando l'oggetto
+    database dentro a questo file
+filesystems.php ci da configurazioni per il locale. Per salvare il LOCAL, PUBLIC, AMAZON (s3)
+logging.php consente di fare i log e quando farli
+mail.php ha tutte le configurazioni per le mail
+view.php consente di cambiare le view e per esempio di cambiare il nome della cartella views
+----------------------
+Dentro CONFIG file app.php
+    'name' => env('APP_NAME', 'Laravel'),
+    // nel name dell'app mettici quello che trovi in env['APP_NAME'] oppure 'Laravel'
+    Il file .ENV è un file di configurazione dei parametri di Laravel. Non usa oggetti ma semplicemente VARIABILE=valore
+----------------------
+APP contiene
+    EXCEPTIONS che contiene Handler.php che è un file per la gestione unica degli errori
+    HTTP è la cartella dove succede tutto 
+    PROVIDERS contiene dei files dove vengono registrati diverse cose. Sono delle classi di utility che provvedono
+    ad estendere delle funzionalità
+        App è delegato all'app genericamente e ci sono degli hook register() e boot() esposti dal ServiceProvider
+        Auth è per login, logout, registrazione, ecc...
+        Broadcast server per le notifiche.
+        Event registra gli eventi con dei listener
+
+
+APP contiene il HTTP dove succede il codice
+
+
+
+
+GUARDA SLACK E LA NEWSLETTER DI LARAVEL
+
+---------------------------
+
+Seeds, i seeds sono dei modi per prepopolare un database e li troviamo in database
+per creare un seed 
+php artisan make:seeder CategoriesTableSeeder
+CategoriesTableSeeder diventa un entrypoint e verrà eseguito il suo metodo run se richiamato
+
+per lanciarli tutti
+php artisan db:seed
+Bisogna prima sincerarsi che la tabella sia vuota
+
+A volta bisogna lanciare
+composer dumpautoload
+per allineare laravel
+
+per non dovere ogni volta svuotare la tabella prima possiamo abbinare il seed con migrate.
+pulisce il database e rilancia le migrazioni e fa il seeding
+php artisan migrate:fresh --seed
+
+-------------------------------
+Faker è una libreria per creare dati finti
+
+per installarlo su non laravel
+composer rquire fzaninotto/faker
+
+su laravel è già impostato
+'duration' => $faker->numberBetween(80, 240),
+//imageUrl($width, $height, classe) faker online cerca
+'cover_path' => $faker->imageUrl(500, 1000, 'abstract'),$faker = Faker\Factory::create();
+
+---------------------------------------
+
+AUTO WITH
+si fa mettendo la variabile
+    protected $with = [
+        'details', //nome relationship (funzione)
+    ];
+
+---------------------------------------
+
+SCOPES
+lo scope è un'altra strategia da applicare per fare operazioni sulle query.
+Si creano pezzi di query con gli scopes (generalmente condizioni) e poi li si applicano dentro altre query
+
+si dichiarano
+public function scopeActive($query){ //scope+Nomescope come parametro la query
+        return $query->where('email_verified_at', '<>', null);
+}
+//poi si richiama sempecemente con la prima lettera del nome dello scope minuscola, 
+//mentre se ci sono altre parole la prima lettera delle altre parole deve essere maiuscola
+$users = User::active()->get();
+$users = User::notActive()->get();
+
+
+    public function index()
+    {
+        //come chiamare lo scope, nomescope() prima lettera minuscola poi dalle parole dopo la prima lettera maiuscola
+        $users = User::active()->get();
+        // $users = User::notActive()->get();
+
+        //qua sotto chiamo lo scope status con un parametro
+        // $users = User::status(true)->get();
+
+        //altro modo per chiamarlo dentro una funzione
+        // $user_details = UserDetails::with(['user' => function($q){
+        //     return $q->active();
+        // }])->get();
+
+        foreach ($users as $u => $user) {
+            echo $user->name . '<br>';
+        }
+        // foreach ($user_details as $u => $user_detail) {
+        //     echo $user_detail->user->name . '<br>';
+        // }
+    }
+
+
+--------------------------------------
+SOFT DELETEING
+il soft deleting si usa per non cancellare una riga dal database, ma si aggiunge una colonna con lo stato di cancellato
+
+per usare il soft deleting laravel ci mette a disposizione un trait, SoftDeletes

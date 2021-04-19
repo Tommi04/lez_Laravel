@@ -1,0 +1,14 @@
+cerca su Laravel
+
+Tutto ciò che riguarda il file management sta dentro il config>filesystems.php
+abbiamo modo di quale disco fare usare a Laravel per l'archiviazione. Possiamo mettere il locale, il cloud, ftp, sftp, rackspace
+
+salvataggio base64 peggiora la pesantezza del file nelle query. 
+Il modo migliore per salvare il file è quello di salvare il file in una cartella
+e salvare il path relativo all'interno del db.
+La cartella dove laravel salva tutto è storage ma non è aperta all'esterno, 
+quindi dobbiamo creare un link simbolico alla cartella storage  con 
+    php artisan storage:link
+una volta fatto abbiamo una porzione di storage nella nostra cartella public>storage
+
+per manipolare le request dei file guarda in CreateMoviesRequest

@@ -1,0 +1,63 @@
+@import 'variables';
+
+@mixin default-size(){
+    position: relative;
+    width: map-get($widths, full)
+}
+
+@mixin mq-min-width($width){
+    @media all and (min-width: $width){
+        @content;
+    }
+}
+
+@mixin flex-jcenter(){
+    display: flex;
+    justify-content: center;
+}
+
+@mixin p-m-0(){
+    padding: 0;
+    margin: 0;
+}
+
+@mixin rel-inlbl(){
+    position: relative;
+    display: inline-block;
+}
+
+@mixin bck-img-def(){
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+}
+
+@mixin ltr-weight-xbold(){
+    letter-spacing: 2px;
+    font-weight: map-get($font-weights, extrabold);
+}
+
+@mixin ltr-weight-bold(){
+    letter-spacing: 5px;
+    font-weight: map-get($font-weights, bold);
+}
+
+@mixin ltr-weight-semibold(){
+    letter-spacing: 3px;
+    font-weight: map-get($font-weights, semibold);
+}
+
+@mixin abs-full(){
+    width: 100%;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+
+@mixin h4-hall {
+    color: map-get($mv-colors, mv-white);
+    font-size: 1.50rem;
+    @include ltr-weight-semibold;
+    margin-bottom: 25px;
+}

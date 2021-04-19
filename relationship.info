@@ -1,0 +1,16 @@
+hasMany
+belongsTo
+ManyMany
+...
+
+Soft deleting per l'entità
+Auto with: Impostare il  modello perchè ogni volta che viene invocato venga invocato impostando join precompilati
+with count: equivalente del SELECT SUM
+
+----
+nelle tabelle pivot, senza chiave, si usa solo la relationship con la migrazione
+php artisan make:migration create_movies_categories_table
+
+-------
+creo una migrazione che altera una table
+php artisan make:migration alter_users_table_drop_category_id_column

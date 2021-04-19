@@ -1,0 +1,64 @@
+Le mail hanno due sistemi, le notifiche e i mailable
+Le notifiche vengono instradate verso tutte quelle classi che usano il trate notifiable e quindi possono essere notificate
+    User->notify(new Notifica)
+Le notifiche danno un template per omogeneizzare i le mail
+
+per configurare l'invio delle mail bisogna modificare il file .env nel blocco MAIL_
+
+Quando modifichi il file .env stoppa l'esecuzione del server e lancia: php artiasn config:cache e composer dumpautoload
+
+Nel file config>mail.php vengono gestiti i parametri mail
+
+Per attivare l'invio della mail di registrazione si deve andare nel file di rotte web.php e inserire
+    Auth::routes(['verify' => true]);
+
+e va lanciato nella console php artisan route:clear, php artisan route:list e composer dumpautoload
+
+Poi va implementata l'interfaccia Illuminate\Contracts\Auth\MustVerifyEmail; alla classe User.php
+    class User extends Authenticatable implements MustVerifyEmail
+
+Per personalizzare la mail che arriva dobbiamo pubblicare il publish delle mail
+ci sono 2 package, uno piccolo e uno grande, il piccolo è laravel-notifications
+    php artisan vendor:publish --tag=laravel-pagination // questo lo abbiamo fatto all'inizio di tutto
+    php artisan vendor:publish --tag=laravel-notifications //questo per le mail, piccolo
+    In questo modo il file di configurazione della mail si trova in resources > views > vendor  >notifications > email.blade.php
+
+    php artisan vendor:publish --tag=laravel-mail //questo per le mail, grande
+    In questo modo i file di configurazione della mail si trova in resources > views > vendor  >mail 
+
+prova
+    php artisan vendor:publish da solo
+
+La gestione delle mail è fatta di slot e component, gli slot finiscono dentro altri file php usati da altri component che crano altri slot
+Lo slot è la parte dentro il component
+
+lo stile è inline, esiste il folder themes con dentro i css, ma prima di inviare la mail vengono comunque copiati inline
+per configurare da dove prende il tema si fa dentro la cartella config>mail.php
+
+per creare una NOTIFICA lanciare il comando
+    phph artisan make:notification nomeNotification
+e ci ritroviamo il nomeNotification.php in app > notifications
+
+
+Per provare ho creato il controller SendMail.php
+
+
+Per fare il preview di una mail guarda il controller SendMail.php
+
+Per gli allegati guardare la notification TestWithAttachement
+
+Per mettere le immagini, ad esempio nell'header, andare in resources > views > vendor > mail > html > message.blade.php
+    e nello slot dell'header inserire l'html, stile anni 80/90, dell'immagine 
+
+
+--------- USARE LE MAIL E NON LE NOTIFICHE -----------
+Due modi per inviare le mail. Invio di mail secche e 
+
+Invio di mail secche, mail trapper, guarda controller MailSecche.php
+
+per creare una mailable
+    php artisan make:mail Nome
+e in app troveremo la catella Mail con la classe Nome
+
+I CID sono i Contend ID, l'unico tag nel path delle immagini che garantisce che le immagini dentro
+le mail vengano visualizzate inline. DA USARE

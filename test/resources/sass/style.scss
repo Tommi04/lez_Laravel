@@ -1,0 +1,626 @@
+@import 'theme';
+@import 'utils';
+@import 'mixins';
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+*{
+    box-sizing: border-box;
+}
+
+/*
+fatto tramite normalizecss
+npm install normalizecss
+link in main a node_modules/normalizecss/normalize.css
+html,
+body{
+    padding: 0;
+    margin: 0;
+}
+*/
+
+body{
+    @include default-size;
+    font-size: $base-font-size;
+    font-family: $default-font-family;
+}
+
+main{
+    @include p-m-0;
+}
+
+#header{
+    @include default-size;
+    @include flex-jcenter;
+    align-items: center;
+    padding: 15px;
+    min-height: $header-lg-size;
+    border-bottom: 2px solid map-get($mv-colors, mv-light-blue);
+    img{
+        width: 150px;
+        height: $header-lg-size;
+    }
+}
+
+
+#main-single-page,
+#main{
+    min-height: $screen-height;
+    @include default-size;
+    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/map-get($mv-colors, mv-dark-blue)+0,300167+50,01011b+100 */
+    background: map-get($mv-colors, mv-dark-blue); /* Old browsers */
+    background: -moz-linear-gradient(top,  map-get($mv-colors, mv-dark-blue) 0%, map-get($mv-colors, mv-dark-purple) 50%, map-get($mv-colors, mv-dark-blue) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top,  map-get($mv-colors, mv-dark-blue) 0%,map-get($mv-colors, mv-dark-purple) 50%,map-get($mv-colors, mv-dark-blue) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom,  map-get($mv-colors, mv-dark-blue) 0%,map-get($mv-colors, mv-dark-purple) 50%,map-get($mv-colors, mv-dark-blue) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#01011b', endColorstr='#01011b',GradientType=0 ); /* IE6-9 */
+}
+
+#main-single-page{
+    min-height: calc($screen-height - $header-lg-size);
+}
+
+#logo{
+    position:absolute;
+    top: 0;
+    left: 0;
+    width: 14%;
+    height: 100%;
+    background-color: map-get($map: $mv-colors, $key: mv-light-blue);
+    text-align: right;
+    img{
+        position: relative;
+        width: auto;
+        height: 100%;
+    }
+}
+
+
+
+#main-menu{
+    @include default-size;
+    height: $header-lg-size;
+    @include mq-min-width(map-get($breakpoints, md)){
+        @include flex-jcenter;
+    }
+    ul{
+        @include p-m-0;
+        text-align: center;
+        li{
+            @include rel-inlbl;
+            text-align: center;
+            /* background-color: #ccc; */
+            &:first-child{
+                padding-left: 0;
+            }
+            &:last-child{
+                padding-right: 0;
+            }
+            i{
+                color:map-get($mv-colors, mv-white);
+                text-decoration: none; /* toglie i pallini */
+                text-transform: uppercase;
+                font-size: 1.5rem; /* 22 px */
+                transition: all .3s ease-in-out;
+            }
+            a{
+                margin: 0 20px;
+                color: map-get($mv-colors, mv-white);
+                text-decoration: none; /* toglie i pallini */
+                text-transform: uppercase;
+                font-size: 1rem; /* 22 px */
+                /* rem calculator per lavorare in rem */
+                @include ltr-weight-xbold;
+                transition: $default-transition;
+                @include mq-min-width(map-get($breakpoints, md)){
+                    font-size: 1.5rem;
+                    margin: 0;
+                }
+                @include mq-min-width(map-get($breakpoints, xl)){
+                    font-size: 2rem;
+                }
+                i{
+                    padding-right: 10px;
+                }
+            }
+            &:hover a{
+                color: map-get($mv-colors, mv-light-blue );
+            }
+            &:hover i{
+                color: map-get($mv-colors, mv-light-blue );
+            }
+            .menu-separator{
+                display: none;
+                @include mq-min-width(map-get($breakpoints, sm)){
+                    display: block;
+                    margin: 0 15px;
+                    width: 1px;
+                    /* height: 100%; in relative un oggetto relative 100% di una cosa che non ha dimensione non funzionerà mai */
+                    height: 1.7rem;
+                    background-color: map-get($mv-colors, mv-light-blue );
+                }
+            }
+        }
+    }
+}
+
+#secondary-menu{
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 18%;
+    height: 100%;
+    display: none;
+    @include mq-min-width(map-get($breakpoints, md)){
+        display: block;
+    }
+    ul {
+        @include p-m-0;
+        text-align: center;
+        li{
+            @include rel-inlbl;
+            text-align: center;
+            /* background-color: #ccc; */
+        }
+        &:first-child{
+            padding-left: 0;
+        }
+        &:last-child{
+            padding-right: 0;
+        }
+    }
+    #search-icon:hover{
+        color: map-get($mv-colors, mv-light-blue );
+    }
+    #search-icon{
+        color: map-get($mv-colors, mv-white);
+        font-size: 1.5rem;
+        transition: $default-transition;
+        cursor: pointer;
+    }
+}
+
+
+
+.mv-header-btn{
+    padding: 5px 15px;
+    border: 3px solid map-get($mv-colors, mv-light-blue );
+    color: map-get($mv-colors, mv-white);
+    font-size: 1.1rem;
+    transition: $default-transition;
+    cursor: pointer;
+    background-color: map-get($mv-colors, mv-transparent );
+    cursor: pointer;
+    text-transform: uppercase;
+    @include ltr-weight-bold;
+    &:hover{
+        border-color: map-get($mv-colors, mv-white);
+        color: map-get($mv-colors, mv-light-blue );
+    }
+}
+
+
+/* gallery */
+#hero-gallery{
+    @include default-size;
+    height: 500px;
+    #hero-gallery-inner{
+        @include default-size;
+        height: 100%;
+        padding-bottom: 30px;
+    }
+}
+
+#gallery-slideshow{
+    @include default-size;
+    height: 100%;
+    padding-bottom: 20px;
+    overflow: hidden;
+}
+
+#slideshow{
+    position: relative; /* in relative il left è unset, non 0 */
+    left: 0;
+    /* width: 100%; gliel'abbiamo data con js
+                    slideShow.style.width */
+    height: 100%;
+    z-index: 0;
+    @include p-m-0;
+    transition: $long-transition;
+}
+
+.slide{
+    @include rel-inlbl;
+    /* width: 100%; passato con js
+                    slides[s].style.width = viewportWidth + "px"; */
+    height: 100%;
+    @include bck-img-def;
+    margin: 0 -2px;
+    .slide-title{
+        opacity: 0;
+        visibility: hidden;
+        transition: $long-transition;
+        transform: translateY(10px);
+    }
+    .slide-content{
+        position: relative;
+        width: 50%;
+        height: 100%;
+        margin: auto;
+    }
+}
+
+
+.slide.active{
+    .slide-title{
+        opacity: 1;
+        visibility: visible;
+        transition: $short-transition;
+        transform: translateY(0);
+    }
+}
+
+/* .slide.active{ */
+    /* opacity: 1;
+    visibility: visible;
+    z-index: 2; */
+/* } */
+
+.gallery-nav{
+    position: absolute;
+    z-index: 1;
+    width: 50px;
+    height: 100%;
+    background-color: #ccc;
+    top: 0;
+    text-align: center;
+    padding-bottom: inherit;
+    background-color: map-get($mv-colors, mv-transparent );
+}
+
+#gallery-nav-prev{
+    left: 25px;
+    @include mq-min-width(map-get($breakpoints, md)){
+            left: 50px;
+    }
+}
+
+#gallery-nav-next{
+    right: 25px;
+    @include mq-min-width(map-get($breakpoints, md)){
+            right: 50px;
+    }
+}
+
+.gallery-nav-btn{
+    font-size: 3rem; /*3rem=3*16*/
+    color: map-get($mv-colors, mv-white);
+    &:hover{
+        cursor: pointer;
+    }
+}
+
+
+#gallery-dots{
+    position: absolute;
+    height: 20px;
+    width: 100%;
+    background-color: map-get($mv-colors, mv-dark-blue);
+    bottom: 0;
+    left: 0;
+    text-align: center;
+}
+
+.dot{
+    display: inline-block;
+    margin: 0 5px;
+    width: 10px;
+    height: 10px;
+    background-color: map-get($mv-colors, mv-light-blue );
+    border-radius: 50%;
+    transform: scale(1);
+    transform-origin: center;
+    transition: $default-transition;
+    &.active{
+        background-color: map-get($mv-colors, mv-white);
+        transform: scale(1.3);
+    }
+    &:hover{
+        background-color: map-get($map: $mv-colors, $key: mv-white);
+        transform: scale(1.2);
+        transform-origin: center;
+    }
+}
+
+/*end-gallery*/
+
+/* movies wall */
+
+.single-movie-block{
+    position: relative;
+    margin-bottom: 75px;
+    h4{
+        @include h4-hall;
+    }
+}
+
+#movie-info{
+    position: relative;
+}
+
+.single-movie-poster{
+    width: 100%;
+    /*padding-bottom: 100%; /* com padding-bottom e padding-top a 100% l'immagine è quadrata perchè questo 100% è la percentuale di larghezza, il 100% della width */
+    padding-bottom: 140%;
+    @include bck-img-def;
+}
+
+
+.btn-marg{
+    margin-top: 30px !important;
+    margin-bottom: 30px !important;
+}
+
+.img-h{
+    height: 200px !important;
+}
+
+/* end movies wall */
+
+/* book now */
+.book-now-form-container{
+    position: relative;
+    padding: 35px 25px 20px;
+    background-color: map-get($mv-colors, mv-black-50p);
+    border-radius: 5px;
+}
+
+/* start hall wall */
+#hall{
+    @include default-size;
+}
+.single-hall-block{
+    margin-bottom:75px;
+    h4{
+        @include h4-hall;
+    }
+}
+
+.single-hall-img{
+    @include default-size;
+    /*padding-bottom: 100%; /* com padding-bottom e padding-top a 100% l'immagine è quadrata perchè questo 100% è la percentuale di larghezza, il 100% della width */
+    padding-top: 100%;
+    @include bck-img-def;
+}
+
+
+/* end hall wall */
+
+
+/* footer */
+#footer{
+    @include default-size;
+    background-color: map-get($map: $mv-colors, $key: mv-light-blue);
+    padding: 10px 15px;
+    #footer-social-container {
+        position: relative;
+        color: map-get($mv-colors, mv-light-blue );
+        border-left: 0;
+        padding: 0; 
+        @include mq-min-width(map-get($breakpoints, md)){
+            border-left: 1px solid map-get($mv-colors, mv-light-blue);
+            padding: 5px 0 5px 20px;
+            text-align: left;
+        }
+        a {
+            margin-right: 10px;
+            text-decoration: none;
+            i {
+                color: map-get($mv-colors, mv-dark-blue );
+                font-size: 3.5rem;
+                transition: $default-transition;
+            }
+            &:hover i {
+                color: rgb(235, 235, 235);
+            }
+        }
+    }
+}
+
+#footer-logo {
+    @include rel-inlbl;
+    @include bck-img-def;
+	width: 200px;
+	height: $header-lg-size;
+}
+
+#back-to-top {
+	cursor: pointer;
+	background-color: map-get($mv-colors, mv-medium-blue);
+	padding: 10px;
+	border-radius: 50%;
+	width: 50px;
+    height: 50px;
+    i {
+        color: map-get($mv-colors, mv-dark-blue);
+        font-size: 2.5rem;
+        line-height: .8;
+    }
+}
+
+/* END FOOTER */
+
+/* SECTION wall */
+
+#halls{
+    @include default-size;
+    padding: 50px;
+}
+
+.movie-info-box{
+    display:none;
+}
+#preloader{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: map-get($mv-colors, mv-black-50p); /* per l'opacita */
+    z-index: 99; /*per sicurezza lo mettiamo sempre sopra */
+    padding: 50px;
+    /* display: none; l'ho nascosta */
+    opacity: 0;
+    visibility: hidden;
+    transition: $default-transition;
+    &.open{
+        opacity: 1;
+        visibility: visible;
+    }
+}
+
+.lds-roller{
+    @include rel-inlbl;
+    width: 80px;
+    height: 80px;
+  }
+  .lds-roller div {
+    animation: lds-roller 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+    transform-origin: 40px 40px;
+  }
+  .lds-roller div:after {
+    content: " ";
+    display: block;
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: map-get($mv-colors, mv-white);
+    margin: -4px 0 0 -4px;
+  }
+  .lds-roller div:nth-child(1) {
+    animation-delay: -0.036s;
+  }
+  .lds-roller div:nth-child(1):after {
+    top: 63px;
+    left: 63px;
+  }
+  .lds-roller div:nth-child(2) {
+    animation-delay: -0.072s;
+  }
+  .lds-roller div:nth-child(2):after {
+    top: 68px;
+    left: 56px;
+  }
+  .lds-roller div:nth-child(3) {
+    animation-delay: -0.108s;
+  }
+  .lds-roller div:nth-child(3):after {
+    top: 71px;
+    left: 48px;
+  }
+  .lds-roller div:nth-child(4) {
+    animation-delay: -0.144s;
+  }
+  .lds-roller div:nth-child(4):after {
+    top: 72px;
+    left: 40px;
+  }
+  .lds-roller div:nth-child(5) {
+    animation-delay: -0.18s;
+  }
+  .lds-roller div:nth-child(5):after {
+    top: 71px;
+    left: 32px;
+  }
+  .lds-roller div:nth-child(6) {
+    animation-delay: -0.216s;
+  }
+  .lds-roller div:nth-child(6):after {
+    top: 68px;
+    left: 24px;
+  }
+  .lds-roller div:nth-child(7) {
+    animation-delay: -0.252s;
+  }
+  .lds-roller div:nth-child(7):after {
+    top: 63px;
+    left: 17px;
+  }
+  .lds-roller div:nth-child(8) {
+    animation-delay: -0.288s;
+  }
+  .lds-roller div:nth-child(8):after {
+    top: 56px;
+    left: 12px;
+  }
+  @keyframes lds-roller {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+/*MODAL  */
+#modal-overlay{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: map-get($mv-colors, mv-black-50p); /* per l'opacita */
+    z-index: 99; /*per sicurezza lo mettiamo sempre sopra */
+    padding: 50px;
+    /* display: none; l'ho nascosta */
+    opacity: 0;
+    visibility: hidden;
+    transition: all 1s linear;
+    &.open{
+        /* display: block; */
+    
+        opacity: 1;
+        visibility: visible;
+        transition: $default-transition; /* in questo modo quando la chiudo ci mette di meno */
+    }
+}
+
+
+#modal{
+    /* position: absolute;  PER CENTRARE GLI ABSOLUTE
+    top: 25%;
+    left: 25%; */
+
+    @include default-size;
+    margin: auto;
+    top: 50%;       /* PER CENTRARE I RELATIVE LO PORTIAMO AL 50% DEL WIDTH E POI LO RITIRIAMO SU DEL 50% */
+    transform: translateY(-50%);
+    min-height: 50%;
+    background-color: map-get($mv-colors, mv-white);
+    transition: all 1s linear;
+    h2{
+        font-size: 2.5rem;
+        color: #000;
+        text-align: center;
+    }
+}
+
+#modal-overlay #modal{
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-30%);
+}
+
+#modal-overlay.open #modal {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(-50%);
+}
+
+#modal-close-container{
+    @include default-size;
+    padding: 5px 15px;
+    text-align: right;
+    font-size: 2.5rem;
+    cursor: pointer;
+    color: #000;
+}

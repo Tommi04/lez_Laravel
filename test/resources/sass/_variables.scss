@@ -1,0 +1,32 @@
+$base-font-size: 16px;
+$default-font-family:'Montserrat', sans-serif;
+$font-weights:(
+    normal:400, semibold: 500, bold: 600 , extrabold: 700,
+);
+$font-: 600;
+$font-bold: 600;
+
+$mv-colors: (
+    mv-white: #fff, 
+    mv-black: #000, 
+    mv-light-blue: #00aff0,
+    mv-medium-blue:#00597b,
+    mv-dark-blue: #01011b,
+    mv-transparent: transparent,
+    mv-light-purple: #a541e1,
+    mv-dark-purple: #39016e,
+    mv-light-green: #45e9d0,
+    mv-dark-green: #015b51,
+    mv-black-50p:rgba(0,0,0,.5),
+    mv-purple: #ba34f3
+);
+$header-sm-size: 70px;
+$header-lg-size: 100px;
+$screen-height: 100vh;
+$default-transition-time: .3s;
+$default-transition: all $default-transition-time linear;
+$short-transition: all ($default-transition-time * 3) ease-in;
+$long-transition: all ($default-transition-time * 1.66) ease-in;
+$widths:(full: 100%, half: 50%);
+
+$breakpoints: (sm: 768px, md: 992px, lg: 1220px, xl: 1400px);

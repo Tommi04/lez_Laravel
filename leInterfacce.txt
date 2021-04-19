@@ -1,0 +1,5 @@
+Le interfaccie sono dei metodi senza corpo del metodo
+
+Un'interfaccia si implementa, non si usa. Implements a destra della classe padre e non use o extend
+
+La classe che implementa l'interfaccia è necessario, tassativo che abbia un metodo tailwin (?)
