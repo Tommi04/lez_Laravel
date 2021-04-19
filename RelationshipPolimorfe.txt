@@ -1,0 +1,9 @@
+Con le relazioni polimorfe da una tabella posso fare più join con tabelle diverse, 
+da User andare a recuperare UserDetails e CompanyDetails con una sola relationship su User e la stessa
+in UserDetails e CompanyDetails
+
+    public function user(){
+        return $this->morphOne('App\Models\User', 'details');
+    }
+
+andando a scrivere nel DB il model da prendere nella colonna details_type
