@@ -1,0 +1,19 @@
+Con Lumen si possono sviluppare api senza installare laravel. Se serve
+
+API viene in mente REST o fetchAPI
+Sono degli endpoint con cui comunicare tramite axaj, node, guzzle, ecc...
+Guzzle è già integrato in laravel fino alla versione 7, dalla 7 c'è l' http client
+
+Le API si fanno tramite controlli
+dentro il file di rotte api.php (che ci mette a disposizione laravel)
+dovremo esporre degli url che verranno contattati
+
+Il formato della risposta sarà in json
+
+Dentro la rotta api.php troveremo il meddleware che certifica che quella richiesta sia
+    effettivamente una richiesta api e gestisce le richieste per minuto ed il
+    trotting delle richieste
+
+Quando creiamo la rotta, laravel ci aggiunge un pezzo all'url dell'api
+dovremo richiamarla non con per esempio /users ses abbiamo dato users alla rotta dell'api
+ma dovremo richiamarla con /api/users

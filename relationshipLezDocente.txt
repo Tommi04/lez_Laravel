@@ -1,0 +1,16 @@
+belongsTo = Appartiene a
+devo avere una relazione nella tabella specifica
+
+
+
+chiamando la funzione hasMany torna un'array di oggetti
+
+chiamando la funzione belongsTo torna un oggetto
+
+hasOne è l'inverso del belongsTo
+
+se da una parte ho messo hasMany o hasOne dall'altra parte devo avere per forza un id
+
+l'id di riferimento lo metto nella tabella che appartiene
+
+manyToMany ha le tabelle pivot a livello di DB perchè devo creare una tabella intermedia

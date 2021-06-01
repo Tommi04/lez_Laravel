@@ -1,0 +1,36 @@
+consentono la gestione asincrona del codice
+
+qeue.php in config
+contiene una marea di modi di gestire le code
+    sync = [
+        'driver' = 'sync'
+    ]
+    fa partire subito la coda e aspetta, è una cosa sincrona, usata solo per prova o pochi altri casi
+
+    database
+    per eseguire i job a db e elaborarli a db
+
+    sqs e reddis
+    sono di terze parti
+
+meglio focalizzarsi su più code, quelle che servono, nè più nè meno, non focalizzarsi solo su una coda
+
+php artisan queue:work sqs --queue=verification,backup,default
+
+
+TaskScheduling per la parte di chroneJob
+
+per ogni elemento della coda richiamera il kernel.php con il parametro schedule e andrà a testare se c'è un chroneJob da eseguire
+
+php artisan make:job testJob
+    nell' handle() ci sarà il codice da eseguire per questo job
+
+
+in Kernel.php mettiamo i job nella funzione schedule
+
+$this->onQueue('backup');
+$this->onConnection('sqs');
+
+
+
+Laravel mette a disposizinoe horizon con redis

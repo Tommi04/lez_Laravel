@@ -1,0 +1,60 @@
+mail e notifications 
+
+cambiano meccanismo e architetture dietro alla scelta
+
+la mail è potenzialmente anonima, non collegata ad n utente, usa phpmailer ed è inviabile a più utentei
+
+il phpmailer è un wrapper della funzione mail di php
+
+invia una mail a questo o più utenti, gli interessa solo un array di destinatari
+
+php artisan make:mail LikeMail
+
+public function sendNotification(User $toBenotified, User $likeUser){
+    Mail::to($toBenotified->email)->send(new likeMail);
+}
+
+LE NOTIFICHE
+base invio mail, c'è sopra un'altra struttura che è la notifica
+la notifica può essere di diverse forme
+notifica a db gestita tramite websocket
+notifica broadcast, sms, mail
+
+la mail è comunque l'elemento base
+la notifica usa il treat notifiable, 
+è collegata ad un modello che implementa il notifiable
+
+quindi va creato un modello con php artisan notifications:table
+lo abbiamo in HasDatabaseNotifications
+
+in RoutesNotifications abbiamo i canali per poter gestire la notifica
+
+DatabaseNotifications è un trait importante con una serie di metodi
+
+RoutesNotifications è più difficile, va a controlalre se nel modello esiste il metodo routeNotificationForMail
+in questo metodo gli dichiaro info extra con le quali il modello sa che quando deve inviare una notifica
+deve sfruttare i dati in questo metodo
+
+php artisan make:notification LikeNotification
+
+public function sendNotification(User $toBenotified, User $likeUser){
+    //LikeNotification è il metodo importato
+    $toBenotified->notify(new LikeNotification($likeUser));
+
+}
+
+nel LikeNotification abbiamo il metodo via() che ci dice in che canali deve essere inviata
+    return=['mail', 'database', 'slack']
+
+un metodo per ogni elemento dell'array aggiungendo 'to' prima e mettendo la prima lettera maiuscola
+toMail per decidere cosa c'è nella mail
+toSlack per decidere cosa mandare su slack
+
+nel toMail viene usata la classe likeMail perchè usa l'oggetto mail
+
+
+
+
+
+
+la notifica è una sovrastruttura che usa la mail
